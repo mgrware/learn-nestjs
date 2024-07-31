@@ -1,0 +1,51 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ProfileAddress {
+  id: String!
+  title: String!
+  receiver_name: String!
+  latitude: String!
+  longitude: String!
+  country: String!
+  city: String!
+  zip_code: String!
+  phone_number: String!
+  location: String!
+  address: String!
+  auth_user: AuthUser!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type AuthUser {
+  id: String!
+  first_name: String!
+  email: String!
+  phone_number: String!
+  address: String!
+  role: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+  profile_address: [ProfileAddress!]!
+}
+
+type DefaultResponse {
+  message: String!
+}
+
+type Query {
+  health: DefaultResponse!
+  authUser(id: String!): AuthUser!
+  authUsers: [AuthUser!]!
+}
+
+type Mutation {
+  createAuthUser(first_name: String!, email: String!, phone_number: String): AuthUser!
+}
