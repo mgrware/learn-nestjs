@@ -29,7 +29,8 @@ type AuthUser {
   first_name: String!
   email: String!
   phone_number: String!
-  address: String!
+  encrypted_password: String!
+  address: String
   role: String!
   created_at: DateTime!
   updated_at: DateTime!
@@ -40,12 +41,27 @@ type DefaultResponse {
   message: String!
 }
 
+type AuthResponse {
+  """JWT access token"""
+  accessToken: String!
+}
+
 type Query {
   health: DefaultResponse!
   authUser(id: String!): AuthUser!
   authUsers: [AuthUser!]!
+  currentUser: AuthUser
 }
 
 type Mutation {
+  signIn(SignInput: AuthInput!): AuthResponse!
   createAuthUser(first_name: String!, email: String!, phone_number: String): AuthUser!
+}
+
+input AuthInput {
+  """User's email address"""
+  email: String!
+
+  """User's plain-text password"""
+  password: String!
 }

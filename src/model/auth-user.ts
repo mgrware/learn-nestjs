@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn } from 'typeorm';
-import { ProfileAddress } from './profile_address';
+import { ProfileAddress } from './profile-address';
 import { ObjectType, Field } from '@nestjs/graphql';
 
 @ObjectType()
@@ -20,10 +20,14 @@ export class AuthUser {
   @Field()
   @Column('varchar', { length: 15 })
   phone_number: string;
- 
+
   @Field()
+  @Column()
+  encrypted_password: string;
+ 
+  @Field({ nullable: true })
   @Column('text')
-  address: string ;
+  address?: string ;
 
   @Field()
   @Column('text', { name: "role_title", nullable: false})

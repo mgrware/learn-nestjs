@@ -3,12 +3,13 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
-import { AuthUserModule } from './module/auth_user';
-import { ProfileAddressModule } from './module/profile_address';
+import { AuthUserModule } from './module/auth-user';
+import { ProfileAddressModule } from './module/profile-address';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { RootQuery } from './root.query'
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './module/auth';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       entities: ['dist/model/*.js'],
       synchronize: false,
     }),
+    AuthModule,
     AuthUserModule,
     ProfileAddressModule,
   ],

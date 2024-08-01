@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { AuthUser } from './../model/auth_user';
+import { AuthUser } from '../model/auth-user';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AuthUserDTO } from './../object/auth_user';
+import { AuthUserDTO, CurrentUserDTO } from '../object/auth-user';
 
 @Injectable()
 export class AuthUserService {
@@ -21,5 +21,9 @@ export class AuthUserService {
     
       findOne(id: string): Promise<AuthUser> {
         return this.authUserRepository.findOneBy({id: id});
+      }
+
+      async findUserFromContext(currentUser: CurrentUserDTO) {
+        return this.authUserRepository.findOneBy({id: currentUser.id});
       }
 }

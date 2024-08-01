@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { AuthUser } from './auth_user';
+import { AuthUser } from './auth-user';
 
 @ObjectType()
 @Entity("profile_addresses")
@@ -15,7 +15,7 @@ export class ProfileAddress {
  
   @Field()
   @Column('varchar')
-  receiver_name: string;
+  receiver_name?: string;
   
   @Field()
   @Column()

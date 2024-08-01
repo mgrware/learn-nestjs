@@ -1,5 +1,5 @@
-import { AuthUserService } from './auth_user';
-import { ProfileAddress } from 'src/model/profile_address';
+import { AuthUserService } from './auth-user';
+import { ProfileAddress } from 'src/model/profile-address';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
