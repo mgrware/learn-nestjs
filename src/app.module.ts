@@ -10,6 +10,7 @@ import { join } from 'path';
 import { RootQuery } from './root.query'
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './module/auth';
+import { PaymentSubscriptionModule } from './module/payment-subscription';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AuthModule } from './module/auth';
     AuthModule,
     AuthUserModule,
     ProfileAddressModule,
+    PaymentSubscriptionModule,
   ],
   controllers: [AppController],
   providers: [AppService, RootQuery],

@@ -14,11 +14,11 @@ export class AuthUser {
   first_name: string;
  
   @Field()
-  @Column('text', { nullable: false })
+  @Column('text', { nullable: false, unique: true })
   email: string;
  
   @Field()
-  @Column('varchar', { length: 15 })
+  @Column('varchar', { length: 15, unique: true })
   phone_number: string;
 
   @Field()
@@ -27,11 +27,15 @@ export class AuthUser {
  
   @Field({ nullable: true })
   @Column('text')
-  address?: string ;
+  address?: string;
 
   @Field()
   @Column('text', { name: "role_title", nullable: false})
-  role: string;
+  role: string;  
+
+  @Field()
+  @Column('uuid')
+  payment_subscription_id: string;
 
   @OneToMany(type => ProfileAddress, profile_address => profile_address.auth_user)
   @JoinColumn({name : 'auth_user_id'})

@@ -6,7 +6,7 @@ import { Resolver, Mutation, Args, Query, ResolveField, Parent } from '@nestjs/g
 import { Inject, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import CurrentUser from 'src/auth/current-user';
-import { CurrentUserDTO } from 'src/object/auth-user';
+import { CurrentUserDTO, AuthUserInput } from 'src/object/auth-user';
 
 @Resolver(of => AuthUser)
 export class AuthUserResolver {
@@ -18,7 +18,6 @@ export class AuthUserResolver {
   @UseGuards(JwtAuthGuard)
   @Query(returns => AuthUser)
   async authUser(@Args('id') id: string, @CurrentUser() currentUser: CurrentUserDTO,): Promise<AuthUser> {
-    console.log(currentUser)
     return await this.authUserService.findOne(id);
   }
 
@@ -43,11 +42,11 @@ export class AuthUserResolver {
 
   @Mutation(returns => AuthUser)
   async createAuthUser(
-    @Args('first_name') first_name: string,
-    @Args('email') email: string,
-    @Args('phone_number', { nullable: true }) phone_number: string,
+    @Args('AuthUserInput') authUserInput: AuthUserInput,
   ): Promise<AuthUser> {
-    return await this.authUserService.create({ first_name, email, phone_number })
+    // authUserInput['payment_subcription_id'] = ""
+    // console.log(authUserInput)
+    return await this.authUserService.create(authUserInput)
   }
 
 }

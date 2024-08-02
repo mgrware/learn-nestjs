@@ -17,21 +17,19 @@ export class AuthService {
   ) {}
   async execute(authInput: AuthInput) {
     const user = await this.authUserRepository.findOneBy({email: authInput.email});
-    console.log(authInput.email)
     if (!user) {
       throw new UnauthorizedException('User email or password incorrect');
     }
+
     const passwordHasMatch = await compare(authInput.password, user.encrypted_password);
     if (!passwordHasMatch) {
       throw new UnauthorizedException('User email or password incorrect');
     }
 
-    const payload: IJwtPayload = {
-      auth_user_id: user.id,
-      iat: 123456,
-    };
+    const payload = { auth_user_id: user.id, iat: 12345622222};
+
     return {
-      accessToken: this.jwtService.sign(payload)
+      accessToken: await this.jwtService.signAsync(payload)
     };
   }
 }

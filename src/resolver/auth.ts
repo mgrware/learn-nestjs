@@ -11,6 +11,7 @@ export default class AuthResolver {
   async signIn(
     @Args('SignInput') authInput: AuthInput
 ) {
+
     return this.authService.execute(authInput);
   }
 }

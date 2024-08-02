@@ -1,18 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { AuthUser } from '../model/auth-user';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AuthUserDTO, CurrentUserDTO } from '../object/auth-user';
+import { AuthUserInput, CurrentUserDTO } from '../object/auth-user';
+import { PaymentSubscriptionService } from './payment-subcription';
+
 
 @Injectable()
 export class AuthUserService {
     constructor(
         @InjectRepository(AuthUser)
         private authUserRepository: Repository<AuthUser>,
+        @Inject(PaymentSubscriptionService)
+        private paymentSubscriptionService: PaymentSubscriptionService,
       ) {}
 
-      create(details: AuthUserDTO): Promise<AuthUser>{
-          return this.authUserRepository.save(details);
+      async create(details: AuthUserInput): Promise<AuthUser>{
+        const paymentSubscriptionId = await this.paymentSubscriptionService.getIdByName("free")
+        
+        details['payment_subscription_id'] = paymentSubscriptionId
+        console.log("TESt", details)
+        return this.authUserRepository.save(details);
       }
     
       findAll(): Promise<AuthUser[]> {

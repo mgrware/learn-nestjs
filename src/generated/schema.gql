@@ -32,6 +32,7 @@ type AuthUser {
   encrypted_password: String!
   address: String
   role: String!
+  payment_subscription_id: String!
   created_at: DateTime!
   updated_at: DateTime!
   profile_address: [ProfileAddress!]!
@@ -55,7 +56,7 @@ type Query {
 
 type Mutation {
   signIn(SignInput: AuthInput!): AuthResponse!
-  createAuthUser(first_name: String!, email: String!, phone_number: String): AuthUser!
+  createAuthUser(AuthUserInput: AuthUserInput!): AuthUser!
 }
 
 input AuthInput {
@@ -64,4 +65,18 @@ input AuthInput {
 
   """User's plain-text password"""
   password: String!
+}
+
+input AuthUserInput {
+  """User's First name"""
+  first_name: String!
+
+  """User's phone number"""
+  phone_number: String!
+
+  """User's email address"""
+  email: String!
+
+  """User's subscription"""
+  payment_subscription_id: String
 }
