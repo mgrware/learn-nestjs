@@ -29,8 +29,10 @@ type AuthUser {
   first_name: String!
   email: String!
   phone_number: String!
-  address: String!
+  encrypted_password: String!
+  address: String
   role: String!
+  payment_subscription_id: String!
   created_at: DateTime!
   updated_at: DateTime!
   profile_address: [ProfileAddress!]!
@@ -40,12 +42,41 @@ type DefaultResponse {
   message: String!
 }
 
+type AuthResponse {
+  """JWT access token"""
+  accessToken: String!
+}
+
 type Query {
   health: DefaultResponse!
   authUser(id: String!): AuthUser!
   authUsers: [AuthUser!]!
+  currentUser: AuthUser
 }
 
 type Mutation {
-  createAuthUser(first_name: String!, email: String!, phone_number: String): AuthUser!
+  signIn(SignInput: AuthInput!): AuthResponse!
+  createAuthUser(AuthUserInput: AuthUserInput!): AuthUser!
+}
+
+input AuthInput {
+  """User's email address"""
+  email: String!
+
+  """User's plain-text password"""
+  password: String!
+}
+
+input AuthUserInput {
+  """User's First name"""
+  first_name: String!
+
+  """User's phone number"""
+  phone_number: String!
+
+  """User's email address"""
+  email: String!
+
+  """User's subscription"""
+  payment_subscription_id: String
 }
