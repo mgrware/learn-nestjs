@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { AuthUser } from 'src/model/auth-user';
-import { AuthInput } from 'src/object/auth';
-import { IJwtPayload } from 'src/object/jwt'
+import { AuthInput } from 'src/objects/auth';
+import { IJwtPayload } from 'src/objects/jwt'
 
 @Injectable()
 export class AuthService {

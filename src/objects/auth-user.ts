@@ -34,12 +34,5 @@ export class AuthUserInput {
   @IsEmail()
   @IsOptional()
   payment_subscription_id?: string;
-
-  // @Field(() => String, { description: `User's plain-text password` })
-  // @IsString()
-  // @MinLength(8)
-  // @MaxLength(256)
-  // password: string;
-
   
 }

@@ -35,7 +35,28 @@ type AuthUser {
   payment_subscription_id: String!
   created_at: DateTime!
   updated_at: DateTime!
-  profile_address: [ProfileAddress!]!
+  profileAddress: [ProfileAddress!]!
+}
+
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  countBefore: Float!
+  countNext: Float!
+  countCurrent: Float!
+  countTotal: Float!
+}
+
+type PaginatedAuthUser {
+  edges: [AuthUserEdge!]
+  pageInfo: PageInfo
+}
+
+type AuthUserEdge {
+  cursor: String!
+  node: AuthUser!
 }
 
 type DefaultResponse {
@@ -50,7 +71,7 @@ type AuthResponse {
 type Query {
   health: DefaultResponse!
   authUser(id: String!): AuthUser!
-  authUsers: [AuthUser!]!
+  authUsers(first: Int, after: String, last: Int, before: String, fieldName: String, fieldValue: String): PaginatedAuthUser!
   currentUser: AuthUser
 }
 

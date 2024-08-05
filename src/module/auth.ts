@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy, jwtConstants } from '../auth/guard/passport-strategy';
 import { AuthUserModule } from './auth-user';
 import AuthResolver from 'src/resolver/auth'
-import { AuthService } from 'src/service/auth';
+import { AuthService } from 'src/services/auth';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthUser } from 'src/model/auth-user';
 
