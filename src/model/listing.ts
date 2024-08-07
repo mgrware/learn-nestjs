@@ -9,9 +9,9 @@ export class Listing {
   @PrimaryGeneratedColumn('uuid')
   id: string;
  
-  @Field()
+  @Field({ nullable: true })
   @Column({ length: 500, nullable: false })
-  name: string;
+  name?: string;
 
   @ManyToMany(() => AuthUser, (auth_user) => auth_user.listings)
   @JoinTable({
@@ -24,7 +24,11 @@ export class Listing {
         name: "auth_user_id",
         referencedColumnName: "id"
     }
-})
+  })
   auth_users: AuthUser[]
+
+  @Field({ nullable: true })
+  @Column({ nullable: false })
+  status?: string;
 
 }

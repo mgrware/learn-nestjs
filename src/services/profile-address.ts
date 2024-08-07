@@ -26,4 +26,11 @@ export class ProfileAddressService {
   findOne(id: string): Promise<ProfileAddress> {
     return this.profileAddressRepository.findOneBy({id: id});
   }
+
+  async findMainAddress(id: string): Promise<ProfileAddress> {
+    const result = await this.profileAddressRepository.createQueryBuilder("profile_addresses")
+    .where("profile_addresses.auth_user_id = :id and profile_addresses.is_public = :is_public", { id: id, is_public: true })
+    .getOne();
+    return result || null;
+  }
 }
