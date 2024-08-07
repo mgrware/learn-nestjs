@@ -10,12 +10,15 @@ import { CurrentUserDTO, AuthUserInput } from 'src/objects/auth-user';
 import { PaginatedAuthUser } from './paginated/auth-user';
 import { PaginationArgs } from 'src/objects/pagination';
 import { FilterInput } from 'src/objects/filter';
+import { ListingService } from 'src/services/listing';
+import { Listing } from 'src/model/listing';
 
 @Resolver(of => AuthUser)
 export class AuthUserResolver {
   constructor(
     @Inject(AuthUserService) private readonly authUserService: AuthUserService,
-    @Inject(ProfileAddressService) private profileAddressService: ProfileAddressService
+    @Inject(ProfileAddressService) private profileAddressService: ProfileAddressService,
+    @Inject(ListingService) private listingService: ListingService,
   ) { }
 
   @UseGuards(JwtAuthGuard)
@@ -29,6 +32,12 @@ export class AuthUserResolver {
   async profileAddress(@Parent() auth_user) {
     const { id } = auth_user;
     return this.profileAddressService.findByAuthUser(id);
+  }
+
+  @ResolveField(returns => [Listing])
+  async listing(@Parent() auth_user) {
+    const { id } = auth_user;
+    return this.listingService.findByAuthUser(id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -50,8 +59,6 @@ export class AuthUserResolver {
   async createAuthUser(
     @Args('AuthUserInput') authUserInput: AuthUserInput,
   ): Promise<AuthUser> {
-    // authUserInput['payment_subcription_id'] = ""
-    // console.log(authUserInput)
     return await this.authUserService.create(authUserInput)
   }
 

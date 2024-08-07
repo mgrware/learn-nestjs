@@ -42,21 +42,14 @@ export class AuthUserService {
         paginationArgs: PaginationArgs,
         filterInput: FilterInput
       ) {
-        const query = await this.authUserRepository
+        const query = this.authUserRepository
         .createQueryBuilder()
-        .where(`${filterInput.fieldName} ilike :value`, { value: `%${filterInput.fieldValue}%` })
         .select();
-        return paginate(query, paginationArgs);
-      }
 
-
-      private createWhereQuery(params: FilterInput) {
-        const where: any = {};
-    
-        if (params.fieldName) {
-          where.name = ILike(`%${params.fieldValue}%`);
+        if (filterInput.fieldName && filterInput.fieldValue) {
+          query.where(`${filterInput.fieldName} ilike :value`, { value: `%${filterInput.fieldValue}%` })
         }
-    
-        return where;
+
+        return paginate(query, paginationArgs);
       }
 }
