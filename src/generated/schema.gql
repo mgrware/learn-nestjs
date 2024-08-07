@@ -41,6 +41,7 @@ type AuthUser {
   payment_subscription_id: String!
   created_at: DateTime!
   updated_at: DateTime!
+  mainAddress: String
   profileAddress: [ProfileAddress!]!
   listing: [Listing!]!
 }

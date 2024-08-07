@@ -34,5 +34,5 @@ export class AuthUserInput {
   @IsEmail()
   @IsOptional()
   payment_subscription_id?: string;
-  
+
 }

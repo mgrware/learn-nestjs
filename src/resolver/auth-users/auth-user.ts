@@ -1,17 +1,15 @@
-import { AuthUserService } from '../services/auth-user';
+import { AuthUserService } from 'src/services/auth-user';
 import { ProfileAddressService } from 'src/services/profile-address';
-import { AuthUser } from '../model/auth-user';
-import { ProfileAddress } from 'src/model/profile-address';
+import { AuthUser } from 'src/model/auth-user';
 import { Resolver, Mutation, Args, Query, ResolveField, Parent } from '@nestjs/graphql';
 import { Inject, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import CurrentUser from 'src/auth/current-user';
 import { CurrentUserDTO, AuthUserInput } from 'src/objects/auth-user';
-import { PaginatedAuthUser } from '../objects/paginated';
+import { PaginatedAuthUser } from 'src/objects/paginated';
 import { PaginationArgs } from 'src/objects/pagination';
 import { FilterInput } from 'src/objects/filter';
 import { ListingService } from 'src/services/listing';
-import { Listing } from 'src/model/listing';
 
 @Resolver(of => AuthUser)
 export class AuthUserResolver {
@@ -25,19 +23,6 @@ export class AuthUserResolver {
   @Query(returns => AuthUser)
   async authUser(@Args('id') id: string, @CurrentUser() currentUser: CurrentUserDTO,): Promise<AuthUser> {
     return await this.authUserService.findOne(id);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @ResolveField(returns => [ProfileAddress])
-  async profileAddress(@Parent() auth_user) {
-    const { id } = auth_user;
-    return this.profileAddressService.findByAuthUser(id);
-  }
-
-  @ResolveField(returns => [Listing])
-  async listing(@Parent() auth_user) {
-    const { id } = auth_user;
-    return this.listingService.findByAuthUser(id);
   }
 
   @UseGuards(JwtAuthGuard)
