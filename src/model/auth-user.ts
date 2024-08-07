@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
 import { ProfileAddress } from './profile-address';
 import { ObjectType, Field } from '@nestjs/graphql';
+import { Listing } from './listing';
 
 @ObjectType()
 @Entity("auth_users")
@@ -40,7 +41,21 @@ export class AuthUser {
   @OneToMany(type => ProfileAddress, profile_address => profile_address.auth_user)
   @JoinColumn({name : 'auth_user_id'})
   profile_addresses: ProfileAddress[]
- 
+
+  @ManyToMany(() => Listing, (listing) => listing.auth_users)
+  @JoinTable({
+    name: "mid_listing_auths", // table name for the junction table of this relation
+    joinColumn: {
+        name: "leaseable_id",
+        referencedColumnName: "id"
+    },
+    inverseJoinColumn: {
+        name: "auth_user_d",
+        referencedColumnName: "id"
+    }
+})
+  listings: Listing[]
+
   @Field()
   @Column()
   @CreateDateColumn({type: 'timestamp', default: () => 'NOW()' })

@@ -1,5 +1,5 @@
-import { AuthService } from "src/service/auth";
-import { AuthResponse, AuthInput } from "src/object/auth";
+import { AuthService } from "src/services/auth";
+import { AuthResponse, AuthInput } from "src/objects/auth";
 import { Resolver, Mutation, Args } from "@nestjs/graphql";
 import { Inject } from "@nestjs/common";
 

@@ -24,6 +24,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Listing {
+  id: String!
+  name: String!
+}
+
 type AuthUser {
   id: String!
   first_name: String!
@@ -35,11 +40,29 @@ type AuthUser {
   payment_subscription_id: String!
   created_at: DateTime!
   updated_at: DateTime!
-  profile_address: [ProfileAddress!]!
+  profileAddress: [ProfileAddress!]!
+  listing: [Listing!]!
 }
 
-type DefaultResponse {
-  message: String!
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  countBefore: Float!
+  countNext: Float!
+  countCurrent: Float!
+  countTotal: Float!
+}
+
+type PaginatedAuthUser {
+  edges: [AuthUserEdge!]
+  pageInfo: PageInfo
+}
+
+type AuthUserEdge {
+  cursor: String!
+  node: AuthUser!
 }
 
 type AuthResponse {
@@ -48,9 +71,8 @@ type AuthResponse {
 }
 
 type Query {
-  health: DefaultResponse!
   authUser(id: String!): AuthUser!
-  authUsers: [AuthUser!]!
+  authUsers(first: Int, after: String, last: Int, before: String, fieldName: String, fieldValue: String): PaginatedAuthUser!
   currentUser: AuthUser
 }
 
