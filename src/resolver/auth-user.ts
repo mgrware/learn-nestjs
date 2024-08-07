@@ -7,7 +7,7 @@ import { Inject, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import CurrentUser from 'src/auth/current-user';
 import { CurrentUserDTO, AuthUserInput } from 'src/objects/auth-user';
-import { PaginatedAuthUser } from './paginated/auth-user';
+import { PaginatedAuthUser } from '../objects/paginated';
 import { PaginationArgs } from 'src/objects/pagination';
 import { FilterInput } from 'src/objects/filter';
 import { ListingService } from 'src/services/listing';
