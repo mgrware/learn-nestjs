@@ -10,14 +10,22 @@ import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './module/auth';
 import { PaymentSubscriptionModule } from './module/payment-subscription';
-import { Listing } from './model/listing';
 import { ListingModule } from './module/listing';
+import { ConnectPostModule } from './module/connect-post';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/generated/schema.gql'),
+      subscriptions: {
+        'subscriptions-transport-ws': {
+          path: '/graphql'
+        },
+      },
+      buildSchemaOptions: {
+        dateScalarMode: 'timestamp',
+      }
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -35,6 +43,7 @@ import { ListingModule } from './module/listing';
     ProfileAddressModule,
     PaymentSubscriptionModule,
     ListingModule,
+    ConnectPostModule,
   ],
   controllers: [AppController],
   providers: [AppService],

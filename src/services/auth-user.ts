@@ -22,7 +22,6 @@ export class AuthUserService {
         const paymentSubscriptionId = await this.paymentSubscriptionService.getIdByName("free")
         
         details['payment_subscription_id'] = paymentSubscriptionId
-        console.log("TESt", details)
         return this.authUserRepository.save(details);
       }
     
