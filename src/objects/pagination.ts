@@ -1,5 +1,5 @@
 import { ArgsType, Field, Int, ObjectType } from '@nestjs/graphql';
-import { Paginated } from 'src/utils/pagination/paginated';
+
 
 @ArgsType()
 export class PaginationArgs {

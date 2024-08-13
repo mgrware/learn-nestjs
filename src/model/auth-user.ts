@@ -42,6 +42,8 @@ export class AuthUser {
   @JoinColumn({name : 'auth_user_id'})
   profile_addresses: ProfileAddress[]
 
+
+
   @ManyToMany(() => Listing, (listing) => listing.auth_users)
   @JoinTable({
     name: "mid_listing_auths", // table name for the junction table of this relation
@@ -65,4 +67,7 @@ export class AuthUser {
   @Column()
   @UpdateDateColumn({type: 'timestamp', default: () => 'NOW()' })
   updated_at: Date;
+
+  @Field(() => String, { name: 'mainAddress', nullable: true }) // Custom field name
+  mainAddress?: string;
 }
