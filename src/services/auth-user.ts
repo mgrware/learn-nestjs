@@ -18,11 +18,11 @@ export class AuthUserService {
         private paymentSubscriptionService: PaymentSubscriptionService,
       ) {}
 
-      async create(details: AuthUserInput): Promise<AuthUser>{
+      async create(input: AuthUserInput): Promise<AuthUser>{
         const paymentSubscriptionId = await this.paymentSubscriptionService.getIdByName("free")
         
-        details['payment_subscription_id'] = paymentSubscriptionId
-        return this.authUserRepository.save(details);
+        input['payment_subscription_id'] = paymentSubscriptionId
+        return this.authUserRepository.save(input);
       }
     
       findAll(): Promise<AuthUser[]> {

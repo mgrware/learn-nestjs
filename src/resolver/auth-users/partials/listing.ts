@@ -7,7 +7,7 @@ import { ListingService } from 'src/services/listing';
 import { Listing } from 'src/model/listing';
 
 @Resolver(of => AuthUser)
-export class ListingFieldResolver {
+export class ListingPartialResolver {
   constructor(
     @Inject(AuthUserService) private readonly authUserService: AuthUserService,
     @Inject(ListingService) private listingService: ListingService,
@@ -15,8 +15,8 @@ export class ListingFieldResolver {
 
   @UseGuards(JwtAuthGuard)
   @ResolveField(returns => [Listing])
-  async listing(@Parent() auth_user) {
-    const { id } = auth_user;
+  async listing(@Parent() authUser) {
+    const { id } = authUser;
     return this.listingService.findByAuthUser(id);
   }
 }

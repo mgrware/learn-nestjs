@@ -1,5 +1,7 @@
-import { Field, InputType } from "@nestjs/graphql";
+import { Field, InputType, ObjectType } from "@nestjs/graphql";
 import { IsEmail, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { AuthUser } from "src/model/auth-user";
+import { Paginated } from "src/utils/pagination/paginated";
 
 export class AuthUserDTO {
   first_name: string;
@@ -27,12 +29,13 @@ export class AuthUserInput {
   phone_number: string;
 
   @Field(() => String, { description: `User's email address` })
-  @IsEmail()
   email: string;
 
   @Field(() => String, { description: `User's subscription`, nullable: true })
-  @IsEmail()
   @IsOptional()
   payment_subscription_id?: string;
 
 }
+
+@ObjectType()
+export class PaginatedAuthUser extends Paginated(AuthUser) { }

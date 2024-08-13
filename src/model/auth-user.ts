@@ -55,7 +55,8 @@ export class AuthUser {
         name: "auth_user_d",
         referencedColumnName: "id"
     }
-})
+  })
+  
   listings: Listing[]
 
   @Field()

@@ -87,6 +87,17 @@ type ConnectPost {
   title: String
   content: String
   auth_user_id: String!
+  totalLike: Float!
+}
+
+type PaginatedConnectPost {
+  edges: [ConnectPostEdge!]
+  pageInfo: PageInfo
+}
+
+type ConnectPostEdge {
+  cursor: String!
+  node: ConnectPost!
 }
 
 type Query {
@@ -94,12 +105,14 @@ type Query {
   authUsers(first: Int, after: String, last: Int, before: String, fieldName: String, fieldValue: String): PaginatedAuthUser!
   currentUser: AuthUser
   listings(first: Int, after: String, last: Int, before: String, fieldName: String, fieldValue: String): PaginatedListing
+  connectPosts(first: Int, after: String, last: Int, before: String, fieldName: String, fieldValue: String): PaginatedConnectPost!
 }
 
 type Mutation {
   signIn(SignInput: AuthInput!): AuthResponse!
   createAuthUser(AuthUserInput: AuthUserInput!): AuthUser!
   addPost(ConnectPostInput: ConnectPostInput!): ConnectPost!
+  addLike(ConnectLikedByInput: ConnectLikedByInput!): ConnectPost!
 }
 
 input AuthInput {
@@ -128,8 +141,16 @@ input ConnectPostInput {
   title: String!
   content: String!
   auth_user_id: String
+  created_at: String
+  updated_at: String
+}
+
+input ConnectLikedByInput {
+  auth_user_id: String
+  connect_post_id: String
 }
 
 type Subscription {
   postAdded: ConnectPost!
+  likeAdded: ConnectPost!
 }

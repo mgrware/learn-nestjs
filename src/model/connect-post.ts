@@ -1,9 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn, ManyToMany, JoinTable, BeforeInsert, BeforeUpdate } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { __Schema } from 'graphql';
-import moment from 'moment';
-
-
 @ObjectType()
 @Entity("connect_posts")
 export class ConnectPost {
@@ -23,9 +19,30 @@ export class ConnectPost {
   @Column('uuid')
   auth_user_id?: string;
 
-  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+  @Field()
+  totalLike?: Number;
+
+  @CreateDateColumn({ type: "timestamp", default: () => "NOW()" })
   public created_at: Date;
 
-  @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
+  @UpdateDateColumn({ type: "timestamp", default: () => "NOW()", onUpdate: "NOW()" })
   public updated_at: Date;
+
+  // @BeforeInsert()
+  // insertCreated() {
+  //   console.log(moment().format("YYYY-MM-DD HH:mm:ss"))
+  //     this.created_at = new Date(
+  //       moment().format("YYYY-MM-DD HH:mm:ss")
+  //     );
+  //     this.updated_at = new Date(
+  //       moment().format("YYYY-MM-DD HH:mm:ss")
+  //     );
+  //   }
+
+  // @BeforeUpdate()
+  // insertUpdated() {
+  //     this.updated_at = new Date(
+  //       moment().format("YYYY-MM-DD HH:mm:ss")
+  //     );
+  //   }
 }
