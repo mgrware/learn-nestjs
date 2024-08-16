@@ -22,6 +22,9 @@ export class CurrentUserDTO {
 
 @InputType()
 export class AuthUserInput {
+  @Field(() => String, { nullable: true, description: `User's ID` })
+  id: string;
+  
   @Field(() => String, { description: `User's First name` })
   first_name: string;
 
@@ -36,6 +39,23 @@ export class AuthUserInput {
   payment_subscription_id?: string;
 
 }
+
+@InputType()
+export class UpdateUserInput {
+  @Field({ nullable: true})
+  id: string;
+
+  @Field({ nullable: true})
+  first_name: string;
+
+  @Field({ nullable: true})
+  phone_number: string;
+
+  @Field({ nullable: true})
+  email: string;
+} 
+
+
 
 @ObjectType()
 export class PaginatedAuthUser extends Paginated(AuthUser) { }

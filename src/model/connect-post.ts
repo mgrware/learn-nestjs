@@ -19,8 +19,11 @@ export class ConnectPost {
   @Column('uuid')
   auth_user_id?: string;
 
-  @Field()
+  @Field({nullable: true})
   totalLike?: Number;
+
+  @Field({nullable: true})
+  totalComment?: Number;
 
   @CreateDateColumn({ type: "timestamp", default: () => "NOW()" })
   public created_at: Date;

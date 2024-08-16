@@ -20,12 +20,10 @@ export class ConnectPostResolver {
   ) { }
 
   @UseGuards(JwtAuthGuard)
-  @Query(() => PaginatedConnectPost)
+  @Query(() => [ConnectPost])
   async connectPosts(
-    @Args() pagination: PaginationArgs,
-    @Args() filterInput: FilterInput,
-    ): Promise<PaginatedConnectPost> {
-    return this.connectPostService.findPaginated(pagination, filterInput);
+    ): Promise<ConnectPost[]> {
+    return this.connectPostService.findAll();
   }
 
 }

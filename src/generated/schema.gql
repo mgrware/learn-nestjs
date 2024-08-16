@@ -57,16 +57,6 @@ type PageInfo {
   countTotal: Float!
 }
 
-type PaginatedAuthUser {
-  edges: [AuthUserEdge!]
-  pageInfo: PageInfo
-}
-
-type AuthUserEdge {
-  cursor: String!
-  node: AuthUser!
-}
-
 type PaginatedListing {
   edges: [ListingEdge!]
   pageInfo: PageInfo
@@ -87,30 +77,23 @@ type ConnectPost {
   title: String
   content: String
   auth_user_id: String!
-  totalLike: Float!
-}
-
-type PaginatedConnectPost {
-  edges: [ConnectPostEdge!]
-  pageInfo: PageInfo
-}
-
-type ConnectPostEdge {
-  cursor: String!
-  node: ConnectPost!
+  totalLike: Float
+  totalComment: Float
 }
 
 type Query {
   authUser(id: String!): AuthUser!
-  authUsers(first: Int, after: String, last: Int, before: String, fieldName: String, fieldValue: String): PaginatedAuthUser!
+  authUsers: [AuthUser!]!
   currentUser: AuthUser
   listings(first: Int, after: String, last: Int, before: String, fieldName: String, fieldValue: String): PaginatedListing
-  connectPosts(first: Int, after: String, last: Int, before: String, fieldName: String, fieldValue: String): PaginatedConnectPost!
+  connectPosts: [ConnectPost!]!
 }
 
 type Mutation {
   signIn(SignInput: AuthInput!): AuthResponse!
   createAuthUser(AuthUserInput: AuthUserInput!): AuthUser!
+  updateAuthUser(UpdateUserInput: UpdateUserInput!): AuthUser!
+  removeUser(id: String!): AuthUser!
   addPost(ConnectPostInput: ConnectPostInput!): ConnectPost!
   addLike(ConnectLikedByInput: ConnectLikedByInput!): ConnectPost!
 }
@@ -124,6 +107,9 @@ input AuthInput {
 }
 
 input AuthUserInput {
+  """User's ID"""
+  id: String
+
   """User's First name"""
   first_name: String!
 
@@ -135,6 +121,13 @@ input AuthUserInput {
 
   """User's subscription"""
   payment_subscription_id: String
+}
+
+input UpdateUserInput {
+  id: String
+  first_name: String
+  phone_number: String
+  email: String
 }
 
 input ConnectPostInput {

@@ -39,7 +39,9 @@ export class ConnectPostService {
       }
 
       findAll(): Promise<ConnectPost[]> {
-        return this.connectPostRepository.find();
+        return this.connectPostRepository.find({
+          take: 20
+        });
       }
 
       findOne(id: string): Promise<ConnectPost> {
