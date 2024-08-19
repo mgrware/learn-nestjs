@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { AuthUser } from '../model/auth-user';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
-import { AuthUserInput, CurrentUserDTO } from '../objects/auth-user';
+import { AuthUserInput, CurrentUserDTO, UpdateUserInput } from '../objects/auth-user';
 import { PaymentSubscriptionService } from './payment-subcription';
 import { PaginationArgs } from 'src/objects/pagination';
 import { paginate } from 'src/utils/pagination/paginate';
@@ -18,15 +18,15 @@ export class AuthUserService {
         private paymentSubscriptionService: PaymentSubscriptionService,
       ) {}
 
-      async create(details: AuthUserInput): Promise<AuthUser>{
+      async create(input: AuthUserInput): Promise<AuthUser>{
         const paymentSubscriptionId = await this.paymentSubscriptionService.getIdByName("free")
         
-        details['payment_subscription_id'] = paymentSubscriptionId
-        return this.authUserRepository.save(details);
+        input['payment_subscription_id'] = paymentSubscriptionId
+        return this.authUserRepository.save(input);
       }
     
       findAll(): Promise<AuthUser[]> {
-        return this.authUserRepository.find();
+        return this.authUserRepository.createQueryBuilder().getMany();
       }
     
       findOne(id: string): Promise<AuthUser> {
@@ -50,5 +50,20 @@ export class AuthUserService {
         }
 
         return paginate(query, paginationArgs);
+      }
+
+      async update(updateUserInput: UpdateUserInput) {
+        const user = await this.authUserRepository.findOneBy({id: updateUserInput.id});
+        this.authUserRepository.merge(user, updateUserInput);
+        return this.authUserRepository.save(user);
+      }
+
+      async remove(id: string): Promise<AuthUser> {
+        const user = await this.authUserRepository.findOneBy({id: id});
+        if (!user) {
+          throw new Error('User not found');
+        }
+        await this.authUserRepository.delete(id);
+        return user;
       }
 }

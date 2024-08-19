@@ -5,8 +5,7 @@ import { Resolver, Mutation, Args, Query, ResolveField, Parent } from '@nestjs/g
 import { Inject, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import CurrentUser from 'src/auth/current-user';
-import { CurrentUserDTO, AuthUserInput } from 'src/objects/auth-user';
-import { PaginatedAuthUser } from 'src/objects/paginated';
+import { CurrentUserDTO, AuthUserInput, PaginatedAuthUser, UpdateUserInput } from 'src/objects/auth-user';
 import { PaginationArgs } from 'src/objects/pagination';
 import { FilterInput } from 'src/objects/filter';
 import { ListingService } from 'src/services/listing';
@@ -26,12 +25,10 @@ export class AuthUserResolver {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Query(() => PaginatedAuthUser)
+  @Query(() => [AuthUser])
   async authUsers(
-    @Args() pagination: PaginationArgs,
-    @Args() filterInput: FilterInput,
-    ): Promise<PaginatedAuthUser> {
-    return this.authUserService.findPaginated(pagination, filterInput);
+    ): Promise<AuthUser[]> {
+    return this.authUserService.findAll();
   }
   
   @UseGuards(JwtAuthGuard)
@@ -45,6 +42,22 @@ export class AuthUserResolver {
     @Args('AuthUserInput') authUserInput: AuthUserInput,
   ): Promise<AuthUser> {
     return await this.authUserService.create(authUserInput)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(returns => AuthUser)
+  async updateAuthUser(
+    @Args('UpdateUserInput') updateUserInput: UpdateUserInput,
+    @CurrentUser() currentUser: CurrentUserDTO,
+  ): Promise<AuthUser> {
+    
+    updateUserInput['id'] = currentUser.id
+    return await this.authUserService.update(updateUserInput)
+  }
+
+  @Mutation(() => AuthUser)
+  async removeUser(@Args('id') id: string): Promise<AuthUser> {
+    return await this.authUserService.remove(id);
   }
 
 }

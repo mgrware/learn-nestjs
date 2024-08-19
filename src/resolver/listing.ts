@@ -3,9 +3,9 @@ import { Inject, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { ListingService } from 'src/services/listing';
 import { Listing } from 'src/model/listing';
-import { PaginatedListing } from '../objects/paginated';
 import { PaginationArgs } from 'src/objects/pagination';
 import { FilterInput } from 'src/objects/filter';
+import { PaginatedListing } from 'src/objects/listing';
 
 @Resolver(of => Listing)
 export class ListingResolver {

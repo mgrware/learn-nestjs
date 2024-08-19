@@ -6,8 +6,8 @@ import { AuthUserResolver } from '../resolver/auth-users/auth-user';
 import { ProfileAddressModule } from './profile-address';
 import { PaymentSubscriptionModule } from './payment-subscription';
 import { ListingModule } from './listing';
-import { ProfileAddressFieldResolver } from 'src/resolver/auth-users/field/profile-address.field';
-import { ListingFieldResolver } from 'src/resolver/auth-users/field/listing.field';
+import { ProfileAddressPartialResolver } from 'src/resolver/auth-users/partials/profile-address';
+import { ListingPartialResolver } from 'src/resolver/auth-users/partials/listing';
 
 
 @Module({
@@ -16,7 +16,7 @@ import { ListingFieldResolver } from 'src/resolver/auth-users/field/listing.fiel
     forwardRef(() => PaymentSubscriptionModule),
     forwardRef(() => ListingModule),
     TypeOrmModule.forFeature([AuthUser])],
-  providers: [AuthUserService, AuthUserResolver, ProfileAddressFieldResolver, ListingFieldResolver],
+  providers: [AuthUserService, AuthUserResolver, ProfileAddressPartialResolver, ListingPartialResolver],
   exports: [AuthUserService]
 })
 export class AuthUserModule {}

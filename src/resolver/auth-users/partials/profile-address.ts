@@ -8,7 +8,7 @@ import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 
 @Resolver(of => AuthUser)
-export class ProfileAddressFieldResolver {
+export class ProfileAddressPartialResolver {
   constructor(
     @Inject(AuthUserService) private readonly authUserService: AuthUserService,
     @Inject(ProfileAddressService) private profileAddressService: ProfileAddressService,
@@ -16,15 +16,15 @@ export class ProfileAddressFieldResolver {
 
   @UseGuards(JwtAuthGuard)
   @ResolveField(returns => [ProfileAddress])
-  async profileAddress(@Parent() auth_user) {
-    const { id } = auth_user;
+  async profileAddress(@Parent() authUser) {
+    const { id } = authUser;
     return this.profileAddressService.findByAuthUser(id);
   }
 
   @UseGuards(JwtAuthGuard)
   @ResolveField(() => String, {name: "mainAddress"})
-  async mainAddress(@Parent() auth_user) {
-    const { id } = auth_user;
+  async mainAddress(@Parent() authUser) {
+    const { id } = authUser;
     const mainAddress = await this.profileAddressService.findMainAddress(id);
     if (!mainAddress) {
       return null
